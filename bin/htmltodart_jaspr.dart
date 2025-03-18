@@ -11,8 +11,21 @@ void main(List<String> arguments) async {}
 
 void _createJasprElement(JSString data, JSFunction fn) {
   final converter = JasprConverter(classesAsList: false);
-  var result = converter.convert(data.toString()).replaceAll(",}", "}").replaceAll(",]", "]").replaceAll(",)", ")");
-  var jsprel = DartFormatter(indent: 2).format('final x = $result;').replaceAll("final x = ", "").replaceAll("  [", "[").replaceAll("  ];", "]").replaceAll("    ", "  ").replaceAll(" target: '_blank'", " target: Target.blank");
+  var result = converter
+      .convert(data.toString())
+      .replaceAll(",}", "}")
+      .replaceAll(",]", "]")
+      .replaceAll(",)", ")");
+  var jsprel = DartFormatter(
+    indent: 2,
+    languageVersion: DartFormatter.latestLanguageVersion,
+  )
+      .format('final x = $result;')
+      .replaceAll("final x = ", "")
+      .replaceAll("  [", "[")
+      .replaceAll("  ];", "]")
+      .replaceAll("    ", "  ")
+      .replaceAll(" target: '_blank'", " target: Target.blank");
   fn.callAsFunction(null, jsprel.toJS);
 }
 

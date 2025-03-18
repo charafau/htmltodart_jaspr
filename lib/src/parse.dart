@@ -9,9 +9,7 @@ import 'components.dart';
 // ==========================================
 
 class JasprConverter {
-  const JasprConverter({
-    this.classesAsList = false,
-  });
+  const JasprConverter({this.classesAsList = false});
 
   /// Convert classes to list of strings with a join statement
   ///
@@ -70,7 +68,8 @@ class JasprConverter {
 
     // Process children and text nodes in the correct order
     for (final node in e.nodes) {
-      if (node.nodeType == Node.TEXT_NODE && (node.text?.trim().isNotEmpty ?? false)) {
+      if (node.nodeType == Node.TEXT_NODE &&
+          (node.text?.trim().isNotEmpty ?? false)) {
         String value = node.text!.replaceAll('\n', '').trim();
         // Escape any invalid characters to avoid breaking the string
         value = value.replaceAll(r'\', r'\\');
@@ -90,7 +89,10 @@ class JasprConverter {
     // Add classes
     if (e.className.isNotEmpty) {
       if (classesAsList) {
-        final classList = e.className.split(' ').map((e) => e.replaceAll(RegExp(r'\s+'), ' ').trim()).join("', '");
+        final classList = e.className
+            .split(' ')
+            .map((e) => e.replaceAll(RegExp(r'\s+'), ' ').trim())
+            .join("', '");
         out += "classes: ['$classList',].join(' '),";
       } else {
         out += "classes: '${e.className}',";
@@ -126,7 +128,9 @@ class JasprConverter {
         }
 
         // Check if attribute is supported by component
-        final attrSchema = c.attributes.firstWhereOrNull((a) => a.raw == attrKey);
+        final attrSchema = c.attributes.firstWhereOrNull(
+          (a) => a.raw == attrKey,
+        );
 
         // Special case for id attribute
         if (attrKey == 'id') {
@@ -190,7 +194,7 @@ class JasprConverter {
       }
     }
 
-    out += '),\n';
+    out += '),';
 
     return out;
   }

@@ -7,6 +7,6 @@
 /// # see usage
 /// jaspr_html_convert --help
 /// ```
-library jaspr_html_convert;
+library;
 
 export 'src/parse.dart';
